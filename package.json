@@ -1,0 +1,17 @@
+{
+  "name": "mean-stack",
+  "version": "1.0.0",
+  "description": "Mean Stack Practice from udemy",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "mean_practise"
+  ],
+  "author": "Newaz Sharif",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.14.1"
+  }
+}
