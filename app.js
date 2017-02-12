@@ -5,10 +5,14 @@
 	var path  = require('path');
 
 	app.set('port',3000);
+
+	app.use(express.static(path.join(__dirname,'public')))
+	
+
 	app.get('/',function(req,res)
 	{
 		console.log("got it man");
-		res.sendFile(path.join(__dirname,'./public/index.html'))
+		res.sendFile('index.html');
 	})
 
 	app.get('/json',function(req,res)
