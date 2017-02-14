@@ -1,7 +1,9 @@
 var express = require('express')
 var router = express.Router();
-var hotelsCtrl = require('../controllers/hotels.controllers.js')
-var reviewsController = require('../controllers/reviews.controllers.js')
+
+var hotelsCtrl = require('../controllers/hotels.controllers.js');
+var reviewsController = require('../controllers/reviews.controllers.js');
+
 router
 	.route('/Hotels')
 	.get(hotelsCtrl.getAllHotels);
