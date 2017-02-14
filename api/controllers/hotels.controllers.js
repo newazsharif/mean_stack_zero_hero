@@ -38,9 +38,6 @@ module.exports.getHotelOne = function(req,res)
 		{
 			res.status(200).json(doc);
 		})
-		
-
-	
 }
 
 module.exports.hotelsAddone = function(req,res)
