@@ -11,7 +11,7 @@ router
 	.get(hotelsCtrl.getHotelOne);
 
 router
-	.route('/Hotels/newHotel')
-	.post(hotelsCtrl.addNewHotel);
+	.route('/Hotels/hotelsAddone')
+	.post(hotelsCtrl.hotelsAddone);
 
 module.exports = router;

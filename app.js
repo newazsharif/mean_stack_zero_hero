@@ -1,6 +1,6 @@
 (function()
 {
-	require('./api/data/dbconnection.js').open();
+	require('./api/data/db.js');
 	//some comment added for nodemon
 	var express = require('express');
 	var app = express();

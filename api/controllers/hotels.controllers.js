@@ -1,13 +1,12 @@
-var hotelData = require('../data/hotel-data.json');
-var dbConn = require('../data/dbconnection.js')
+var mongoose = require('mongoose');
+var Hotel = mongoose.model('Hotel');
 
 
 module.exports.getAllHotels = function(req,res)
 {
-	console.log("got it man");
-	console.log(dbConn.get());
+	
 	var offset = 0;
-	var count = 6;
+	var count = 5;
 
 
 	if (req.query && req.query.offset) {
@@ -17,21 +16,45 @@ module.exports.getAllHotels = function(req,res)
 	if (req.query && req.query.count) {
 		count = parseInt(req.query.count,10)
 	};
-	console.log(req.query.offset);
-	console.log(req.query.count);
-	var returnData = hotelData.slice(offset, offset+count);
-	res.json(returnData).status(200);
+
+	Hotel.find()
+	.skip(offset)
+	.limit(count).exec(function(err,hotels)
+	{
+		console.log('offset '+offset);
+		console.log('count '+count);
+		console.log(hotels.length);
+		res.json(hotels);
+	})
+	
 }
 
 module.exports.getHotelOne = function(req,res)
 {
-	var thisHotel = req.params.hotelId
-	var result = hotelData[thisHotel];
-	res.json(result);
+
+	var hotelId = req.params.hotelId
+	var doc = Hotel.findById(hotelId)
+	.exec(function(err,doc)
+		{
+			res.status(200).json(doc);
+		})
+		
+
+	
 }
 
-module.exports.addNewHotel = function(req,res)
+module.exports.hotelsAddone = function(req,res)
 {
-	console.log(req.body);
-	res.json(req.body);
+	var newHotel = req.body;
+	newHotel.stars = parseInt(newHotel.stars,10);
+
+	var db = dbConn.get();
+	var collection = db.collection('hotels');
+
+	collection.insertOne(newHotel,function(err,doc)
+	{
+		res.status(201).json(doc.ops);
+	})
+	res.json(newHotel);
 }
+
