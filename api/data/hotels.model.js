@@ -40,7 +40,7 @@ var hotelSchema = new mongoose.Schema({
 		type :String,
 		required : true
 	},
-	star : {
+	stars : {
 		type : Number,
 		min : 0,
 		max : 5,

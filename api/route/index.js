@@ -6,15 +6,14 @@ var reviewsController = require('../controllers/reviews.controllers.js');
 
 router
 	.route('/Hotels')
-	.get(hotelsCtrl.getAllHotels);
+	.get(hotelsCtrl.getAllHotels)
+	.post(hotelsCtrl.hotelsAddone);
 
 router
 	.route('/Hotels/:hotelId')
 	.get(hotelsCtrl.getHotelOne);
 
-router
-	.route('/Hotels/hotelsAddone')
-	.post(hotelsCtrl.hotelsAddone);
+	
 
 router
 	.route('/Hotels/:hotelId/reviews/:reviewId')
@@ -22,7 +21,8 @@ router
 
 router
 	.route('/Hotels/:hotelId/reviews')
-	.get(reviewsController.reviewsGetAll);
+	.get(reviewsController.reviewsGetAll)
+	.post(reviewsController.reviewsAddOne);
 
 
 module.exports = router;

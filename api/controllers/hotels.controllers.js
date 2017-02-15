@@ -35,11 +35,14 @@ module.exports.getAllHotels = function(req,res)
 	{
 		
 		runGeoQuery(req,res);
-		return;
+		return; 
 	}
 
 	var offset = 0;
 	var count = 5;
+	var maxCount = 10;
+
+	
 
 
 	if (req.query && req.query.offset) {
@@ -50,14 +53,38 @@ module.exports.getAllHotels = function(req,res)
 		count = parseInt(req.query.count,10)
 	};
 
+	if(count > maxCount)
+	{
+		res.status(500).
+		json({
+			"message" : "Maximun data range "+ maxCount + " is exceed"
+		})
+		return;
+	}
+
+	if (isNaN(offset) || isNaN(count)) {
+		res
+		.status(400)
+		.json({
+			"message" : "Offset and Count should be numbers"
+		});
+		return;
+	};
 	Hotel.find()
 	.skip(offset)
 	.limit(count).exec(function(err,hotels)
 	{
-		console.log('offset '+offset);
-		console.log('count '+count);
-		console.log(hotels.length);
-		res.json(hotels);
+		if(err)
+		{
+			res.status(500).json(err);
+			return
+		}
+		else
+		{
+			res.json(hotels);
+			return;
+		}
+		
 	})
 	
 }
@@ -69,22 +96,94 @@ module.exports.getHotelOne = function(req,res)
 	var doc = Hotel.findById(hotelId)
 	.exec(function(err,doc)
 		{
-			res.status(200).json(doc);
+			var response = {
+				status : 200,
+				message : doc
+			}
+			if(err)
+			{
+				response.status = 500;
+				response.message = err;
+			}
+			else if(!doc)
+			{
+				response.status = 404;
+				response.message = "No data found";
+			}
+			res.status(response.status)
+			.json(response.message);
+			return;
+
 		})
 }
 
+
+var _splitArray = function(input)
+{
+	var output = [];
+	if(input && input.length > 0)
+	{
+		output = input.split(';');
+	}
+	return output;
+}
 module.exports.hotelsAddone = function(req,res)
 {
-	var newHotel = req.body;
-	newHotel.stars = parseInt(newHotel.stars,10);
+	Hotel
+		.create({
+			name : req.body.name,
+			stars : parseInt(req.body.stars,10),
+			services : _splitArray(req.body.services),
+			description : req.body.description,
+			photos : _splitArray(req.body.photos),
+			currency : req.body.currency,
+			location : 
+			{
+				address : req.body.address,
+				coordinates : [parseFloat(req.body.lng) , parseFloat(req.body.lat)]
+			}
 
-	var db = dbConn.get();
-	var collection = db.collection('hotels');
-
-	collection.insertOne(newHotel,function(err,doc)
-	{
-		res.status(201).json(doc.ops);
-	})
-	res.json(newHotel);
+		},function(err,doc)
+		{
+			var response = {
+				status : 201,
+				message : doc
+			}
+			if(err)
+			{
+				response={
+					status : 400,
+					message : err
+				}
+			}
+			res.status(response.status).json(response.message)
+		})
 }
 
+module.exports.reviewsAddOne = function(req,res)
+{
+	var hotelId = req.params.hotelId
+	var doc = Hotel.findById(hotelId)
+	.exec(function(err,doc)
+		{
+			var response = {
+				status : 200,
+				message : []
+			}
+			if(err)
+			{
+				response.status = 500;
+				response.message = err;
+			}
+			else if(!doc)
+			{
+				response.status = 404;
+				response.message = "No data found";
+			}
+			res.status(response.status)
+			.json(response.message);
+			return;
+
+		})
+
+}
