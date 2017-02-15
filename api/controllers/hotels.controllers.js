@@ -185,5 +185,84 @@ module.exports.reviewsAddOne = function(req,res)
 			return;
 
 		})
+}
 
+module.exports.HotelUpdateOne = function(req,res)
+{
+
+	var hotelId = req.params.hotelId
+	var doc = Hotel.findById(hotelId).
+	select("-reviews -rooms")
+	.exec(function(err,doc)
+		{
+			var response = {
+				status : 200,
+				message : doc
+			}
+			if(err)
+			{
+				response.status = 500;
+				response.message = err;
+			}
+			else if(!doc)
+			{
+				response.status = 404;
+				response.message = "No data found";
+			}
+			if(response.status != 200)
+			{
+				res.status(response.status).json(response.message);
+				return;
+			}
+			else
+			{
+				doc.name = req.body.name,
+				doc.stars = parseInt(req.body.stars,10),
+				doc.services = _splitArray(req.body.services),
+				doc.description = req.body.description,
+				doc.photos = _splitArray(req.body.photos),
+				doc.currency = req.body.currency,
+				doc.location = 
+				{
+					address : req.body.address,
+					coordinates : [parseFloat(req.body.lng) , parseFloat(req.body.lat)]
+				}
+				doc.save(function(err,result)
+				{
+					if(err)
+					{
+						res.status(500).json(err)
+						return;
+					}
+					else
+					{
+						res.status(204).json(result);
+						return;
+					}
+				})	
+			}
+
+		})
+}
+
+module.exports.HotelsDeleteOne = function(req,res)
+{
+	var hotelId = req.params.hotelId
+	var doc = Hotel.findByIdAndRemove(hotelId)
+	.exec(function(err,doc)
+		{
+			var response = {
+				status : 200,
+				message : []
+			}
+			if(err)
+			{
+				response.status = 404;
+				response.message = err;
+			}
+			res.status(response.status)
+			.json(response.message);
+			return;
+
+		})
 }

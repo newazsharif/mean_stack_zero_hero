@@ -11,18 +11,22 @@ router
 
 router
 	.route('/Hotels/:hotelId')
-	.get(hotelsCtrl.getHotelOne);
-
+	.get(hotelsCtrl.getHotelOne)
+	.put(hotelsCtrl.HotelUpdateOne)
+	.delete(hotelsCtrl.HotelsDeleteOne)
 	
 
 router
 	.route('/Hotels/:hotelId/reviews/:reviewId')
-	.get(reviewsController.reviewsGetOne);
+	.get(reviewsController.reviewsGetOne)
+	.put(reviewsController.reviewsUpdateOne)
+	.delete(reviewsController.reviewsDeleteOne);
+
 
 router
 	.route('/Hotels/:hotelId/reviews')
 	.get(reviewsController.reviewsGetAll)
-	.post(reviewsController.reviewsAddOne);
-
+	.post(reviewsController.reviewsAddOne)
+	
 
 module.exports = router;
