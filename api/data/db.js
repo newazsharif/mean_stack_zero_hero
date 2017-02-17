@@ -20,3 +20,4 @@ mongoose.connection.on('error',function(err)
 })
 
 require('./hotels.model.js');
+require('./users.model.js');
