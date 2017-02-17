@@ -1,21 +1,18 @@
-angular.module('meanhotel',['ngRoute'])
-.config(config)
-.controller('HotelsController',HotelsController);
+angular.module('meanhotel', ['ngRoute']).config(config)
 
-function config($routeProvide)
-{
-	$routeProvide
-		.when('/',
-		{
-			templateUrl : 'angular-app/hotels.html',
-			controller : HotelsController,
-			controllerAs : vm
-		})
+function config($routeProvider,$locationProvider) {
+  $routeProvider
+    .when('/', {
+      templateUrl: 'angular-app/hotel-list/hotels.html',
+      controller: 'HotelsController',
+      controllerAs : 'vm'
+      
+    })
+    .when('/hotel/:id', {
+      templateUrl: 'angular-app/hotel-display/hotel.html',
+      controller: 'HotelDisplayController',
+      controllerAs : 'vm'
+      
+    })
+    // $locationProvider.html5Mode(true);
 };
-
-function HotelsController()
-{
-	var vm  = this;
-	this.title = 'Mean Hotel App'
-	
-}

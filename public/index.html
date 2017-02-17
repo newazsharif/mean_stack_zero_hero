@@ -1,13 +1,15 @@
-<!DOCTYPE 
+<!DOCTYPE html>
 <html ng-app="meanhotel">
 <head>
+	<base href="/#">
 	<title>Mean app</title>
-	<link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
+	<link rel="stylesheet" type="text/css" href="https://bootswatch.com/superhero/bootstrap.min.css">
+	<!-- <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css"> -->
 	<link rel="stylesheet" type="text/css" href="css/custom.css">
 </head>
 <body>
-	<h2>Hello Mean Hotel</h2>
-	<script type="text/javascript" src="jquery/jquery-2.2.4.js"></script>
+	<div ng-view></div>
+
 	<footer class="footer">
 		
 		<div class="container">
@@ -22,6 +24,10 @@
 	<script type="text/javascript" src="node_modules/angular/angular.js"></script>
 	<script type="text/javascript" src="node_modules/angular-route/angular-route.js"></script>
 	<script type="text/javascript" src="angular-app/app.js"></script>
+	<script type="text/javascript" src="angular-app/hotel-list/hotel-list-controller.js"></script>
+	<script type="text/javascript" src="angular-app/hotel-display/hotel-display-controller.js"></script>
+	<script type="text/javascript" src="angular-app/hotel-data-factory/hotel-data-factory.js"></script>
+	<script type="text/javascript" src="angular-app/hotel-rating/hotel-rating-directice.js"></script>
 </body>
 </html>
 

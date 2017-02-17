@@ -27,67 +27,67 @@ var runGeoQuery = function(req,res)
 
 
 }
-module.exports.getAllHotels = function(req,res)
-{
-	
+module.exports.getAllHotels = function(req, res) {
 
-	if(req.query && req.query.lat && req.query.lng)
-	{
-		
-		runGeoQuery(req,res);
-		return; 
-	}
+  console.log('GET the hotels');
+  console.log(req.query);
 
-	var offset = 0;
-	var count = 5;
-	var maxCount = 10;
+  var offset = 0;
+  var count = 5;
+  var maxCount = 50;
 
-	
+  if (req.query && req.query.lat && req.query.lng) {
+    runGeoQuery(req, res);
+    return;
+  }
 
+  if (req.query && req.query.offset) {
+    offset = parseInt(req.query.offset, 10);
+  }
 
-	if (req.query && req.query.offset) {
-		offset = parseInt(req.query.offset,10)
-	};
+  if (req.query && req.query.count) {
+    count = parseInt(req.query.count, 10);
+  }
 
-	if (req.query && req.query.count) {
-		count = parseInt(req.query.count,10)
-	};
+  if (isNaN(offset) || isNaN(count)) {
+    res
+      .status(400)
+      .json({
+        "message" : "If supplied in querystring, count and offset must both be numbers"
+      });
+    return;
+  }
 
-	if(count > maxCount)
-	{
-		res.status(500).
-		json({
-			"message" : "Maximun data range "+ maxCount + " is exceed"
-		})
-		return;
-	}
+  if (count > maxCount) {
+    res
+      .status(400)
+      .json({
+        "message" : "Count limit of " + maxCount + " exceeded"
+      });
+    return;
+  }
 
-	if (isNaN(offset) || isNaN(count)) {
-		res
-		.status(400)
-		.json({
-			"message" : "Offset and Count should be numbers"
-		});
-		return;
-	};
-	Hotel.find()
-	.skip(offset)
-	.limit(count).exec(function(err,hotels)
-	{
-		if(err)
-		{
-			res.status(500).json(err);
-			return
-		}
-		else
-		{
-			res.json(hotels);
-			return;
-		}
-		
-	})
-	
-}
+  Hotel
+    .find()
+    .skip(offset)
+    .limit(count)
+    .exec(function(err, hotels) {
+      console.log(err);
+      console.log(hotels);
+      if (err) {
+        console.log("Error finding hotels");
+        res
+          .status(500)
+          .json(err);
+      } else {
+        console.log("Found hotels", hotels.length);
+        res
+          .json(hotels);
+      }
+    });
+
+};
+
 
 module.exports.getHotelOne = function(req,res)
 {
