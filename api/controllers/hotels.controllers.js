@@ -31,6 +31,7 @@ module.exports.getAllHotels = function(req, res) {
 
   console.log('GET the hotels');
   console.log(req.query);
+  console.log(req.user);
 
   var offset = 0;
   var count = 5;

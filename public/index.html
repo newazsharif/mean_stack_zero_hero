@@ -8,7 +8,10 @@
 	<link rel="stylesheet" type="text/css" href="css/custom.css">
 </head>
 <body>
-	<div ng-view></div>
+	<meanhotel-directive></meanhotel-directive>
+	<div class="container" style="padding-top :60px; ">
+		<div ng-view></div>
+	</div>
 
 	<footer class="footer">
 		
@@ -28,6 +31,11 @@
 	<script type="text/javascript" src="angular-app/hotel-display/hotel-display-controller.js"></script>
 	<script type="text/javascript" src="angular-app/hotel-data-factory/hotel-data-factory.js"></script>
 	<script type="text/javascript" src="angular-app/hotel-rating/hotel-rating-directice.js"></script>
+	<script type="text/javascript" src="angular-app/register/register-controller.js"></script>
+	<script type="text/javascript" src="angular-app/navigation-directive/navigation-directive.js"></script>
+	<script type="text/javascript" src="angular-app/login/loginController.js"></script>
+	<script type="text/javascript" src="angular-app/auth/auth-factory.js"></script>
+	<script type="text/javascript" src="angular-app/auth/auth-interceptor.js"></script>
 </body>
 </html>
 

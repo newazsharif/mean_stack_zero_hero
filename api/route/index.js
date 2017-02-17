@@ -32,8 +32,12 @@ router
 	
 
 router
-	.route('/Users')
+	.route('/Users/register')
 	.post(usersController.register)
+
+router
+	.route('/Users/login')
+	.post(usersController.login)
 
 	
 module.exports = router;
