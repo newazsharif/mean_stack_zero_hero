@@ -6,7 +6,7 @@ var User = mongoose.model('User');
 
 module.exports.register = function(req,res)
 {
-
+	console.log('regiser');
 	var user = new User(req.body);
 	user.password = bcrypt.hashSync(user.password,bcrypt.genSaltSync(10))
 	user.save(function(err,response)
@@ -23,6 +23,7 @@ module.exports.register = function(req,res)
 
 module.exports.login = function(req,res)
 {
+	console.log('login');
 	User.findOne({
 		username : req.body.username
 		},function(err,response)
